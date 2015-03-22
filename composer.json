@@ -1,0 +1,28 @@
+{
+  "name": "Rain1/Autocratic",
+  "description": "A little library for security",
+  "minimum-stability": "stable",
+  "license": "The MIT License",
+  "authors": [
+    {
+      "name": "Luca Rainone",
+      "email": "luca.rainone@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.5.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Rain1\\": "library/"
+    }
+  },
+  "autoload-dev": {
+    "psr-0": {
+      "Rain1Test\\": "tests/"
+    }
+  }
+}
