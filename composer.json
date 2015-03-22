@@ -17,12 +17,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Rain1\\": "library/"
+      "Autocratic\\": "library/"
     }
   },
   "autoload-dev": {
-    "psr-0": {
-      "Rain1Test\\": "tests/"
+    "psr-4": {
+      "AutocraticTest\\": "tests/"
     }
   }
 }
