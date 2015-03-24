@@ -6,12 +6,12 @@ The package may be split in two parts:
 - GET/POST management
 - Item Validator
 
-The first part is optional. In any case, I recommend to include the AutocraticAutoloader file.
+The first part is optional. In any case, I recommend to include the AutocraticAutoloader.php file.
 
 ### GET/POST
 
 The class Get/Post deals with user input.
-They encapsules the $_GET and $_POST superglobal vars and force you to use the validator system.
+They encapsulate the $_GET and $_POST superglobal vars and force you to use the validator system.
 Every class is a Singleton. So:
 
 ```php
@@ -24,11 +24,11 @@ $post->get('id'); // return an Item Object
 
 $post->get('title','no title'); // return an Item Object with default value "no title"
 ```
-Even if we define a default value, the return is always an Item Object.
+Even if we define a default value, the return value is always an Item Object.
 
 But what's an Item Object?
 
-### Item
+### Item Object
 
 When an Item is created with a value, this value is encapsulated. 
 You can take it back only if you specify what type of var do you expect.
@@ -47,7 +47,7 @@ $id = $itemId->mustBe(new Int());
 
 ```
 
-If the value is not of the type specified, then the mustBe method throws an Exception with useful infos.
+If the value is not of the specified type, then the "mustBe" method throws an Exception with useful infos.
 
 Method "mustBe" accept more arguments: it will stop when the first argument match the criteria.
 For example:
@@ -64,7 +64,7 @@ try {
 }
 
 ```
-If you don'w want manage exceptions (which has sense in strict webapp like API),
+If you don't want manage exceptions (which has sense in strict webapp like API),
 you can add as argument the special type ForcedToNull, that force the value to null.
 
 ```php
@@ -84,17 +84,18 @@ What if the input is an array? (ex: ids[]=1&ids[]=2)
 
 # Special type: ArrayOfInt
 
-This type check if the value is an array of int.
+Simply, this type check if the value is an array of int.
 
 # Special type: ValidableArray (ItemCollection)
 
 If the value is an array, we have to evaluate every element.
-This class encapsulate the array and you must check the type every time.
+This class encapsulates the array and you must check the type every time.
 
 ```php
 /*
 use ...
 */
+
 $item           = new Item(array("id"=>1, "date"=>"2015-09-01"));
 $itemCollection = $item->mustBe(ValidableArray::NAME);
 
@@ -139,18 +140,23 @@ require 'AutocraticAutoloader.php';
 $get = \Autocratic\Get::getInstance();
 
 try {
+
     $id              = $get->get('id')->mustBe(Int::NAME);
     $inputDate       = $get->get('inputDate'       , '2015-05-05')->mustBe(DateString::NAME);
     $inputFutureDate = $get->get('inputFutureDate' , '2025-05-05')->mustBe(new DateString('now'));
     $inputPastDate   = $get->get('inputPastDate'   , '2012-05-05')->mustBe(new DateString(null,'now'));
+    
 }catch(\Autocratic\Validator\Exception $e) {
+
     $exceptionInfo = $e->getInfo();
+    
     printf(
         "Warning: `%s` is not a valid type for `%s` field. Types allowed are `%s`",
         $exceptionInfo['value'],
         $get->getLastKey(),
         implode(",",$exceptionInfo['allowedTypes'])
     );
+    
     exit;
 }
 
