@@ -24,7 +24,6 @@ class DateString extends TypeAbstract {
                 $isValid = $d->format('Y-m-d') >= $this->dateMin;
             }
             if(!is_null($this->dateMax)) {
-                echo $d->format('Y-m-d') ."<=". $this->dateMax;;
                 $isValid = $d->format('Y-m-d') <= $this->dateMax;
             }
         }

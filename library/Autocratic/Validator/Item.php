@@ -18,11 +18,13 @@ class Item implements ItemInterface {
 
     public function mustBe() {
         $args = func_get_args();
+        $typesName = array();
         foreach($args as $type) {
             if(is_string($type)) {
                 if (!class_exists($type)) {
                     throw new Exception(sprintf("Class %s not exists", $type));
                 }
+                $typesName[] = $type;
                 /**
                  * @var TypeInterface $item
                  */
@@ -32,6 +34,7 @@ class Item implements ItemInterface {
                     throw new Exception(sprintf("$type must be an instance of %s", __NAMESPACE__ . '\TypeInterface'));
                 }
             }else if(($type instanceof TypeInterface)){
+                $typesName[] = get_class($type);
                 $item = $type;
                 $item->set($this->value);
             }else {
@@ -44,7 +47,12 @@ class Item implements ItemInterface {
             }
         }
 
-        throw new Exception(sprintf("Input of type `%s` is not a valid type",gettype($this->value)));
+        $exception = new Exception(sprintf("Input `%s` is not a valid type (`%s`)",print_r($this->value,true), implode("`,`",$typesName)));
+        $exception->setInfo(array(
+            'value' => print_r($this->value, true),
+            'allowedTypes' => $typesName
+        ));
+        throw $exception;
     }
 
     public function sanitize() {

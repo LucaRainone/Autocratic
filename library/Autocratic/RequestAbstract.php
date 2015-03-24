@@ -10,7 +10,7 @@ abstract class RequestAbstract {
     protected static $SUPERVAR = 'Overridden';
     protected static $safevar;
     protected static $_instances = array();
-
+    protected $lastKey;
     protected $items;
 
     private function __construct() {
@@ -30,6 +30,7 @@ abstract class RequestAbstract {
      * @throws Validator\Exception
      */
     public function get($key, $default = null) {
+        $this->lastKey = $key;
         return isset($this->items[$key])? $this->items->get($key) : new Item($default);
     }
 
@@ -52,5 +53,8 @@ abstract class RequestAbstract {
         static::$safevar = $GLOBALS[$var];
     }
 
+    public function getLastKey() {
+        return $this->lastKey;
+    }
 
 }
